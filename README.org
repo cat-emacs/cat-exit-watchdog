@@ -1,0 +1,27 @@
+#+title: Cat Exit Watchdog
+
+Diagnose intermittent Emacs exit hangs without changing save or exit semantics.
+
+* Usage
+
+#+begin_src emacs-lisp
+(use-package cat-exit-watchdog
+  :vc (:url "https://github.com/cat-emacs/cat-exit-watchdog")
+  :demand t
+  :config
+  (cat-exit-watchdog-mode 1))
+#+end_src
+
+When =save-buffers-kill-emacs= exceeds =cat-exit-watchdog-delay=, the package records an Emacs Lisp backtrace and asks an external helper to capture native stacks.
+
+Native capture uses:
+
+- macOS: =sample=
+- Linux/BSD: =gdb=, =gstack=, =pstack=, or =eu-stack=
+- Windows: =cdb=
+
+The Lisp diagnostic remains available when no native debugger is installed. Configure =cat-exit-watchdog-log-directory= to choose the output directory; by default logs are written below =user-emacs-directory=.
+
+* License
+
+GPL-3.0-or-later. See [[file:LICENSE][LICENSE]].
