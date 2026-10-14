@@ -1,0 +1,16 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  emacs:
+    uses: cat-emacs/.github/.github/workflows/emacs-package.yml@v1
+    with:
+      check-command: |
+        emacs -Q --batch -L . --eval '(setq byte-compile-error-on-warn t)' -f batch-byte-compile cat-exit-watchdog.el
+        emacs -Q --batch -L . --eval '(require (quote cat-exit-watchdog))'
